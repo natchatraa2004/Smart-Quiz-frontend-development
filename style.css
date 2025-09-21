@@ -1,0 +1,537 @@
+:root {
+  --bg: #f4f6fb;
+  --card: #fff;
+  --text: #111827;
+  --muted: #6b7280;
+  --border: rgba(0, 0, 0, 0.1);
+  --success: #16a34a;
+  --danger: #dc2626;
+  --warning: #f59e0b;
+  --primary: #0d6efd;
+}
+
+.dark {
+  --bg: #0b1220;
+  --card: #0f1724;
+  --text: #e6eef8;
+  --muted: #9aa4b2;
+  --border: rgba(255, 255, 255, 0.1);
+}
+
+/* Base Styles */
+html,
+body {
+  height: 100%;
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+  transition: all 0.3s ease;
+  line-height: 1.6;
+}
+
+/* Card Styles */
+.card {
+  background: var(--card);
+  border-radius: 0.75rem;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* Navigation */
+.navbar {
+  background: var(--card) !important;
+  color: var(--text);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(10px);
+}
+
+.navbar-brand,
+.navbar-nav .nav-link {
+  color: var(--text) !important;
+  font-weight: 600;
+}
+
+.navbar-brand:hover {
+  color: var(--primary) !important;
+}
+
+/* Progress Bar */
+.progress {
+  border-radius: 0.5rem;
+  overflow: hidden;
+  height: 8px;
+  background: var(--border);
+}
+
+.progress-bar {
+  transition: width 0.6s ease;
+  border-radius: 0.5rem;
+}
+
+/* Quiz Options */
+.option-btn {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  text-align: left;
+  border: 2px solid var(--border);
+  background: var(--card);
+  color: var(--text);
+  padding: 1rem 1.25rem;
+  font-weight: 500;
+  position: relative;
+  overflow: hidden;
+}
+
+.option-btn::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  transition: left 0.5s;
+}
+
+.option-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  border-color: var(--primary);
+}
+
+.option-btn:hover:not(:disabled)::before {
+  left: 100%;
+}
+
+.option-btn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.option-correct {
+  background: var(--success) !important;
+  color: #fff !important;
+  border-color: var(--success) !important;
+  animation: correctAnswer 0.5s ease;
+}
+
+.option-wrong {
+  background: var(--danger) !important;
+  color: #fff !important;
+  border-color: var(--danger) !important;
+  animation: wrongAnswer 0.5s ease;
+}
+
+@keyframes correctAnswer {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes wrongAnswer {
+  0%,
+  20%,
+  40%,
+  60%,
+  80% {
+    transform: translateX(-5px);
+  }
+  10%,
+  30%,
+  50%,
+  70%,
+  90% {
+    transform: translateX(5px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+/* List Group */
+.list-group-item {
+  background: var(--card);
+  border: 1px solid var(--border);
+  color: var(--text);
+  transition: all 0.3s ease;
+}
+
+.list-group-item:hover {
+  background: var(--bg);
+  transform: translateX(2px);
+}
+
+#customList li {
+  border-left: 4px solid var(--primary);
+  padding: 0.75rem;
+  margin-bottom: 0.75rem;
+  background: var(--card);
+  border-radius: 0.5rem;
+  border: 1px solid var(--border);
+  transition: all 0.3s ease;
+}
+
+#customList li:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Typography */
+.small-muted {
+  color: var(--muted);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--text);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+/* Timer Badge */
+#timerBadge {
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 0.5rem 1rem;
+  border-radius: 2rem;
+  transition: all 0.3s ease;
+}
+
+.timer-warning {
+  animation: timerPulse 1s infinite;
+  background: var(--warning) !important;
+  color: #000 !important;
+}
+
+@keyframes timerPulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.05);
+  }
+}
+
+/* Score Highlight */
+.score-highlight {
+  background: linear-gradient(135deg, #ffd700, #ffed4a, #f59e0b);
+  color: #000;
+  padding: 1rem 2rem;
+  border-radius: 1rem;
+  font-weight: 800;
+  font-size: 1.25rem;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 16px rgba(255, 215, 0, 0.3);
+  animation: scoreGlow 2s ease-in-out infinite alternate;
+}
+
+@keyframes scoreGlow {
+  0% {
+    box-shadow: 0 8px 16px rgba(255, 215, 0, 0.3);
+  }
+  100% {
+    box-shadow: 0 12px 24px rgba(255, 215, 0, 0.5);
+  }
+}
+
+/* Form Controls for Dark Mode */
+.dark .form-control,
+.dark .form-select {
+  background: var(--card);
+  border-color: var(--border);
+  color: var(--text);
+}
+
+.dark .form-control:focus,
+.dark .form-select:focus {
+  background: var(--card);
+  border-color: var(--primary);
+  color: var(--text);
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+.dark .form-control::placeholder {
+  color: var(--muted);
+}
+
+/* Button Enhancements */
+.btn {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  font-weight: 600;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  border-width: 2px;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--primary), #0056b3);
+  border-color: var(--primary);
+}
+
+.btn-success {
+  background: linear-gradient(135deg, var(--success), #15803d);
+  border-color: var(--success);
+}
+
+.btn-danger,
+.btn-outline-danger {
+  border-color: var(--danger);
+}
+
+.btn-warning {
+  background: linear-gradient(135deg, var(--warning), #d97706);
+  border-color: var(--warning);
+  color: #000;
+}
+
+/* Accordion for Dark Mode */
+.dark .accordion-item {
+  background: var(--card);
+  border-color: var(--border);
+}
+
+.dark .accordion-button {
+  background: var(--card);
+  color: var(--text);
+  border-bottom-color: var(--border);
+}
+
+.dark .accordion-button:not(.collapsed) {
+  background: var(--card);
+  color: var(--text);
+  box-shadow: none;
+}
+
+.dark .accordion-body {
+  background: var(--card);
+  color: var(--text);
+}
+
+.accordion-button {
+  font-weight: 600;
+}
+
+.accordion-button:not(.collapsed) {
+  background: var(--bg);
+  color: var(--primary);
+}
+
+/* Badge Enhancements */
+.badge {
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.375rem;
+}
+
+/* Loading Spinner */
+.spinner {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-top: 3px solid #ffffff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Animations */
+.fade-in {
+  animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.slide-in {
+  animation: slideIn 0.4s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Leaderboard Medal Effects */
+.border-warning {
+  border-left-width: 4px !important;
+  position: relative;
+  overflow: hidden;
+}
+
+.border-warning::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, rgba(245, 158, 11, 0.1), transparent);
+  pointer-events: none;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  main.container {
+    padding: 0.5rem;
+  }
+
+  .card {
+    margin-bottom: 1rem;
+    border-radius: 0.5rem;
+  }
+
+  .option-btn {
+    padding: 0.875rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  .score-highlight {
+    font-size: 1rem;
+    padding: 0.75rem 1.5rem;
+  }
+
+  .btn {
+    padding: 0.625rem 1.25rem;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .navbar-brand {
+    font-size: 1.1rem;
+  }
+
+  .btn-sm {
+    padding: 0.375rem 0.75rem;
+    font-size: 0.8rem;
+  }
+
+  .d-flex.gap-2 {
+    flex-direction: column;
+    gap: 0.5rem !important;
+  }
+
+  .score-highlight {
+    font-size: 0.95rem;
+    padding: 0.625rem 1.25rem;
+  }
+
+  #qText {
+    font-size: 1.1rem;
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--muted);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text);
+}
+
+.dark ::-webkit-scrollbar-track {
+  background: var(--card);
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: var(--muted);
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #888;
+}
+
+/* Focus States */
+.btn:focus,
+.form-control:focus,
+.form-select:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.25);
+}
+
+/* Utility Classes */
+.text-gradient {
+  background: linear-gradient(135deg, var(--primary), #0056b3);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.shadow-soft {
+  box-shadow: 0 2px 15px 0 rgba(0, 0, 0, 0.1);
+}
+
+.border-gradient {
+  border: 2px solid;
+  border-image: linear-gradient(135deg, var(--primary), #0056b3) 1;
+}

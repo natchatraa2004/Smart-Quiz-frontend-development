@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Smart Quiz</title>
+
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <!-- Icons -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+      <div class="container">
+        <a class="navbar-brand fw-bold" href="#" onclick="showSettings()"
+          >Smart Quiz</a
+        >
+        <div class="d-flex align-items-center gap-2">
+          <div class="form-check form-switch me-2">
+            <input class="form-check-input" id="darkToggle" type="checkbox" />
+            <label class="form-check-label small" for="darkToggle"
+              ><i class="bi bi-moon-stars"></i
+            ></label>
+          </div>
+          <span id="navUser" class="small text-muted"></span>
+          <button id="logoutBtn" class="btn btn-outline-danger btn-sm ms-2">
+            Logout
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <main class="container py-4">
+      <!-- SETTINGS -->
+      <section id="settings" class="card p-4 mb-4 shadow-sm">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h5 class="mb-0">Configure Quiz</h5>
+          <small class="text-muted"
+            >Logged in as <span id="usernameLabel"></span
+          ></small>
+        </div>
+
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label class="form-label">Category</label>
+            <select id="category" class="form-select">
+              <option value="">Any Category</option>
+              <option value="9">General Knowledge</option>
+              <option value="18">Computers</option>
+              <option value="21">Sports</option>
+              <option value="23">History</option>
+              <option value="17">Science & Nature</option>
+              <option value="22">Geography</option>
+              <option value="24">Politics</option>
+              <option value="11">Entertainment: Film</option>
+              <option value="12">Entertainment: Music</option>
+            </select>
+          </div>
+
+          <div class="col-md-3">
+            <label class="form-label">Difficulty</label>
+            <select id="difficulty" class="form-select">
+              <option value="">Any</option>
+              <option value="easy">Easy</option>
+              <option value="medium">Medium</option>
+              <option value="hard">Hard</option>
+            </select>
+          </div>
+
+          <div class="col-md-3">
+            <label class="form-label">Number of Questions</label>
+            <select id="numQ" class="form-select">
+              <option>5</option>
+              <option selected>10</option>
+              <option>15</option>
+              <option>20</option>
+              <option>25</option>
+            </select>
+          </div>
+
+          <div class="col-md-3">
+            <label class="form-label">Time per Question (s)</label>
+            <input
+              id="timePerQ"
+              type="number"
+              min="5"
+              max="120"
+              value="15"
+              class="form-control"
+            />
+          </div>
+
+          <div class="col-md-3">
+            <label class="form-label">Negative Marking</label>
+            <select id="negative" class="form-select">
+              <option value="0" selected>Off</option>
+              <option value="-0.25">-0.25</option>
+              <option value="-0.5">-0.5</option>
+              <option value="-1">-1</option>
+            </select>
+          </div>
+
+          <div class="col-md-6 d-flex gap-2 align-items-end">
+            <button id="startBtn" class="btn btn-primary">
+              <i class="bi bi-play-fill"></i> Start Quiz
+            </button>
+            <button id="resumeBtn" class="btn btn-outline-secondary d-none">
+              <i class="bi bi-arrow-clockwise"></i> Resume
+            </button>
+            <button id="openBoardBtn" class="btn btn-warning ms-auto">
+              <i class="bi bi-trophy"></i> Leaderboard
+            </button>
+          </div>
+
+          <!-- Custom quiz builder toggle -->
+          <div class="col-12">
+            <hr />
+            <div class="d-flex justify-content-between align-items-center">
+              <h6 class="mb-0">Custom Quiz Builder</h6>
+              <small class="text-muted"
+                >Use this to add your own questions (saved locally).</small
+              >
+            </div>
+
+            <div id="builder" class="row g-2 mt-2">
+              <div class="col-12">
+                <input
+                  id="cQ"
+                  class="form-control"
+                  placeholder="Enter question text"
+                />
+              </div>
+              <div class="col-md-6">
+                <input id="cA" class="form-control" placeholder="Option A" />
+              </div>
+              <div class="col-md-6">
+                <input id="cB" class="form-control" placeholder="Option B" />
+              </div>
+              <div class="col-md-6">
+                <input id="cC" class="form-control" placeholder="Option C" />
+              </div>
+              <div class="col-md-6">
+                <input id="cD" class="form-control" placeholder="Option D" />
+              </div>
+              <div class="col-md-4">
+                <label class="form-label small">Correct Option</label>
+                <select id="cCorrect" class="form-select">
+                  <option value="0">A</option>
+                  <option value="1">B</option>
+                  <option value="2">C</option>
+                  <option value="3">D</option>
+                </select>
+              </div>
+              <div class="col-md-8 d-grid">
+                <button id="addCustomBtn" class="btn btn-outline-primary mt-2">
+                  Add to Custom Questions
+                </button>
+              </div>
+              <div class="col-12">
+                <ul id="customList" class="list-group list-group-flush"></ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- QUIZ -->
+      <section id="quizArea" class="d-none">
+        <div class="mb-2 d-flex justify-content-between align-items-center">
+          <div><strong id="qCounter">Question 1</strong></div>
+          <div>
+            <span id="timerBadge" class="badge bg-danger">15s</span>
+            <span id="scoreDisplay" class="badge bg-success ms-2"
+              >Score: 0</span
+            >
+          </div>
+        </div>
+
+        <div class="progress mb-3" style="height: 8px">
+          <div
+            id="progBar"
+            class="progress-bar bg-success"
+            style="width: 0%"
+          ></div>
+        </div>
+
+        <div class="card p-4 shadow-sm mb-3">
+          <div class="mb-2">
+            <small id="qCategory" class="text-muted"></small>
+            <small id="qDifficulty" class="badge bg-info ms-2"></small>
+          </div>
+          <h5 id="qText"></h5>
+          <div id="opts" class="mt-3 d-grid gap-2"></div>
+
+          <div class="d-flex justify-content-between mt-3">
+            <button id="quitBtn" class="btn btn-outline-danger">
+              <i class="bi bi-x-circle"></i> Quit
+            </button>
+            <div>
+              <button id="prevBtn" class="btn btn-secondary me-2 d-none">
+                <i class="bi bi-arrow-left"></i> Previous
+              </button>
+              <button id="nextQBtn" class="btn btn-primary" disabled>
+                Next <i class="bi bi-arrow-right"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- RESULT -->
+      <section id="resultArea" class="d-none">
+        <div class="card p-4 shadow-sm">
+          <div class="text-center mb-4">
+            <h4>🎉 Quiz Completed!</h4>
+            <div
+              id="finalScoreDisplay"
+              class="score-highlight my-3 d-inline-block"
+            ></div>
+          </div>
+
+          <div class="row text-center mb-4">
+            <div class="col-4">
+              <div class="h5 text-success" id="resCorrect">0</div>
+              <small class="text-muted">Correct</small>
+            </div>
+            <div class="col-4">
+              <div class="h5 text-danger" id="resWrong">0</div>
+              <small class="text-muted">Wrong</small>
+            </div>
+            <div class="col-4">
+              <div class="h5 text-info" id="totalTime">0s</div>
+              <small class="text-muted">Total Time</small>
+            </div>
+          </div>
+
+          <div class="text-center mb-4">
+            <p class="mb-1">Player: <strong id="resName"></strong></p>
+            <p class="mb-3">Final Score: <strong id="resScore"></strong></p>
+
+            <div class="d-flex gap-2 justify-content-center flex-wrap">
+              <a id="shareWA" class="btn btn-success" target="_blank">
+                <i class="bi bi-whatsapp"></i> Share
+              </a>
+              <a id="shareTW" class="btn btn-dark" target="_blank">
+                <i class="bi bi-twitter"></i> Tweet
+              </a>
+              <button id="playAgainBtn" class="btn btn-primary">
+                <i class="bi bi-arrow-repeat"></i> Play Again
+              </button>
+            </div>
+          </div>
+
+          <h6>Review Answers</h6>
+          <div id="reviewList" class="accordion"></div>
+        </div>
+      </section>
+
+      <!-- LEADERBOARD modal-like section -->
+      <section id="boardArea" class="d-none">
+        <div class="card p-4 shadow-sm">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5 class="mb-0">🏆 Leaderboard</h5>
+            <div>
+              <button id="clearBoard" class="btn btn-outline-danger btn-sm">
+                Clear
+              </button>
+              <button id="backFromBoard" class="btn btn-secondary btn-sm ms-2">
+                Back
+              </button>
+            </div>
+          </div>
+          <ul id="boardList" class="list-group"></ul>
+        </div>
+      </section>
+    </main>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
